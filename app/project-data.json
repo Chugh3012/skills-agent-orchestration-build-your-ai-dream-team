@@ -1,0 +1,58 @@
+{
+  "projects": [
+    {
+      "name": "Atlas Customer Portal",
+      "owner": "Mona",
+      "status": "On Track",
+      "recentActivity": "Completed the account settings review and queued final copy updates.",
+      "priority": "High",
+      "progress": 72,
+      "dueDate": "2026-10-02"
+    },
+    {
+      "name": "Pulse Metrics Refresh",
+      "owner": "Ravi",
+      "status": "At Risk",
+      "recentActivity": "Data validation uncovered a mismatch in weekly engagement totals.",
+      "priority": "High",
+      "progress": 48,
+      "dueDate": "2026-09-25"
+    },
+    {
+      "name": "Billing Workflow Cleanup",
+      "owner": "Taylor",
+      "status": "Blocked",
+      "recentActivity": "Waiting on an API contract decision before implementation can continue.",
+      "priority": "Medium",
+      "progress": 31,
+      "dueDate": "2026-10-11"
+    },
+    {
+      "name": "Partner Launch Kit",
+      "owner": "Jordan",
+      "status": "Done",
+      "recentActivity": "Published the final enablement checklist and archived launch notes.",
+      "priority": "Medium",
+      "progress": 100,
+      "dueDate": "2026-09-14"
+    },
+    {
+      "name": "Mobile Feedback Loop",
+      "owner": "Sam",
+      "status": "On Track",
+      "recentActivity": "Prototype testing finished with six actionable usability findings.",
+      "priority": "Low",
+      "progress": 64,
+      "dueDate": "2026-10-18"
+    },
+    {
+      "name": "Security Review Follow-up",
+      "owner": "Avery",
+      "status": "At Risk",
+      "recentActivity": "Remediation tasks were reprioritized after the latest dependency scan.",
+      "priority": "Low",
+      "progress": 55,
+      "dueDate": "2026-09-30"
+    }
+  ]
+}

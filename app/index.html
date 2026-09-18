@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Pulse</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header" role="banner">
+      <div class="site-header__inner">
+        <div class="site-header__brand">
+          <span class="site-header__mark" aria-hidden="true">◉</span>
+          <div>
+            <h1 class="site-header__title">Project Pulse</h1>
+            <p class="site-header__tagline">
+              Mona's live view of every project in flight.
+            </p>
+          </div>
+        </div>
+        <div class="site-header__meta" aria-label="Dashboard summary">
+          <span class="site-header__chip">
+            <span class="site-header__chip-dot" aria-hidden="true"></span>
+            Live
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <main class="dashboard" id="dashboard" aria-label="Project cards">
+      <!-- Static example cards so the dashboard looks polished before JS runs. -->
+      <article class="project-card">
+        <header class="project-card__header">
+          <h2 class="project-card__title">Launch Page Refresh</h2>
+          <span
+            class="project-card__status status--on-track"
+            aria-label="Status: On Track"
+          >
+            On Track
+          </span>
+        </header>
+        <p class="project-card__owner">
+          <span class="project-card__label">Owner</span>
+          <span class="project-card__owner-name">Mona Lopez</span>
+        </p>
+        <p class="project-card__activity">
+          Design review completed yesterday
+        </p>
+        <footer class="project-card__footer">
+          <span
+            class="project-card__priority priority--high"
+            aria-label="Priority: High"
+          >
+            High priority
+          </span>
+        </footer>
+      </article>
+
+      <article class="project-card">
+        <header class="project-card__header">
+          <h2 class="project-card__title">Billing API Migration</h2>
+          <span
+            class="project-card__status status--at-risk"
+            aria-label="Status: At Risk"
+          >
+            At Risk
+          </span>
+        </header>
+        <p class="project-card__owner">
+          <span class="project-card__label">Owner</span>
+          <span class="project-card__owner-name">Devon Park</span>
+        </p>
+        <p class="project-card__activity">
+          Vendor response pending since Tuesday
+        </p>
+        <footer class="project-card__footer">
+          <span
+            class="project-card__priority priority--medium"
+            aria-label="Priority: Medium"
+          >
+            Medium priority
+          </span>
+        </footer>
+      </article>
+
+      <article class="project-card">
+        <header class="project-card__header">
+          <h2 class="project-card__title">Onboarding Video Series</h2>
+          <span
+            class="project-card__status status--done"
+            aria-label="Status: Done"
+          >
+            Done
+          </span>
+        </header>
+        <p class="project-card__owner">
+          <span class="project-card__label">Owner</span>
+          <span class="project-card__owner-name">Priya Shah</span>
+        </p>
+        <p class="project-card__activity">
+          Final cut published Monday morning
+        </p>
+        <footer class="project-card__footer">
+          <span
+            class="project-card__priority priority--low"
+            aria-label="Priority: Low"
+          >
+            Low priority
+          </span>
+        </footer>
+      </article>
+    </main>
+
+    <!-- project-data.json -->
+    <!-- Coder will populate render logic here that fetches ./project-data.json -->
+    <script id="render-script">
+      (async function renderProjectDashboard() {
+        const dashboard = document.getElementById("dashboard");
+
+        if (!dashboard) {
+          return;
+        }
+
+        const statusSlugs = {
+          "On Track": "on-track",
+          "At Risk": "at-risk",
+          Blocked: "blocked",
+          Done: "done",
+        };
+
+        const prioritySlugs = {
+          High: "high",
+          Medium: "medium",
+          Low: "low",
+        };
+
+        function renderMessage(message) {
+          const emptyMessage = document.createElement("p");
+          emptyMessage.className = "dashboard__empty";
+          emptyMessage.textContent = message;
+          dashboard.replaceChildren(emptyMessage);
+        }
+
+        function createBadge(baseClassName, modifierPrefix, modifierSlug, label, value) {
+          const badge = document.createElement("span");
+          badge.classList.add(baseClassName);
+
+          if (modifierSlug) {
+            badge.classList.add(`${modifierPrefix}${modifierSlug}`);
+          }
+
+          badge.setAttribute("aria-label", `${label}: ${value}`);
+          return badge;
+        }
+
+        function createProjectCard(project) {
+          const status = project.status || "Unknown";
+          const priority = project.priority || "Unknown";
+
+          const card = document.createElement("article");
+          card.className = "project-card";
+
+          const header = document.createElement("header");
+          header.className = "project-card__header";
+
+          const title = document.createElement("h2");
+          title.className = "project-card__title";
+          title.textContent = project.name || "Untitled project";
+
+          const statusBadge = createBadge(
+            "project-card__status",
+            "status--",
+            statusSlugs[status],
+            "Status",
+            status
+          );
+          statusBadge.textContent = status;
+
+          header.append(title, statusBadge);
+
+          const owner = document.createElement("p");
+          owner.className = "project-card__owner";
+
+          const ownerLabel = document.createElement("span");
+          ownerLabel.className = "project-card__label";
+          ownerLabel.textContent = "Owner";
+
+          const ownerName = document.createElement("span");
+          ownerName.className = "project-card__owner-name";
+          ownerName.textContent = project.owner || "Unassigned";
+
+          owner.append(ownerLabel, ownerName);
+
+          const activity = document.createElement("p");
+          activity.className = "project-card__activity";
+          activity.textContent = project.recentActivity || "No recent activity.";
+
+          const footer = document.createElement("footer");
+          footer.className = "project-card__footer";
+
+          const priorityBadge = createBadge(
+            "project-card__priority",
+            "priority--",
+            prioritySlugs[priority],
+            "Priority",
+            priority
+          );
+          priorityBadge.textContent = `${priority} priority`;
+
+          footer.append(priorityBadge);
+          card.append(header, owner, activity, footer);
+
+          return card;
+        }
+
+        dashboard.replaceChildren();
+
+        try {
+          const response = await fetch("./project-data.json");
+
+          if (!response.ok) {
+            throw new Error(`Project data request failed with ${response.status}`);
+          }
+
+          const data = await response.json();
+          const projects = Array.isArray(data.projects) ? data.projects : [];
+
+          if (projects.length === 0) {
+            renderMessage("No projects to display.");
+            return;
+          }
+
+          const cards = projects.map(createProjectCard);
+          dashboard.replaceChildren(...cards);
+        } catch (error) {
+          renderMessage("Failed to load projects.");
+        }
+      })();
+    </script>
+  </body>
+</html>
